@@ -1,0 +1,87 @@
+Why?
+————————————
+
+Encryption is important because it hides our sensitive data.
+If that data can be extracted, bad things happen. We’d need to develop new encryption systems.
+With semantically secure encryption like the Advanced Encryption Standard, we can’t currently reveal the key or original message.
+The number of keys we’d have to try for a brute force attack is massive.
+But neural networks managed to beat human players at Go, which has twice as many possible game combinations.
+So can they learn to beat encryption systems?
+Can they do it reliably?
+And can they do it efficiently?
+
+
+What?
+————————————
+
+It started with the Multi-time pad, the Simple Substitution cipher and the Caesar shift cipher.
+These simple ciphers use basic operations to hide data, in a not very secure way.
+Then it moved onto DES.
+To keep the DES problems simple, we used a basic mode of operation called Electronic Code Book mode.
+Which isn’t secure anymore, so we expected some good results from that.
+DES itself works by applying the Feistel function to data multiple times.
+The multiple rounds also perform their own transformations on data between Festal functions.
+
+How?
+————————————
+
+So the project focussed on discovering results that can be used for later tests.
+Mainly because this has never been done before.
+I started with simple systems, like Caesar, and worked up towards DES.
+This meant each good result could be used for later, more complicated tests.
+
+So I performed two classification and two regression tests for each system.
+Each test is harder to solve than the one before.
+But they also reveal more information each time they work.
+So it was a good balance.
+
+I used Tensorflow, which is google’s own neural network API to build the networks.
+With that we tested various parameters for each of the tasks.
+Slowly building up a picture of what gave good results and what didn’t.
+
+
+Results
+————————————
+
+So the networks solved all the simple cipher problems
+Most of them returned over 90% results
+The substitution cipher needed bigger networks than the other ciphers
+Because it had a key with 36 values
+Whereas the Multi time pad only had 20
+
+So I moved onto tackling DES next
+But the networks really struggled with the full system
+So I built my own implementation to generate data for all the components at each step in DES
+
+Each of steps were tested, as individual components and in the DES sequence
+So then I found the networks struggled with the multiple rounds of DES
+It couldn’t even get past the second round of DES
+
+So, I generated some data for a single function (the Expansion box) over multiple rounds
+Testing that revealed that the networks can handle the rounds process
+So DES’s security is dependent on the combination of multiple rounds processing and the individual components
+Which is good, because it was designed to be like that!
+
+To get through this, networks probably need to remember the outputs of each round
+So it can then use it for the round after
+
+
+Next Steps
+———————————————
+
+So the next steps would be to continue the component and rounds testing
+The aim being to see how many additional Festal components have to be added to serious affect network performance
+Then we can look at using different network structures to see if “remembering” round outputs could help
+
+Long-Short-Term-Memory or Recurrent Networks could solve it
+Building “round” networks and feeding the outputs through each sequentially could also work
+as could could a combination of the two
+
+Aside from that, there’s lots of tests to be done with other types of neural network
+A Convolutional Network could try to approximate the key of a system
+reducing the time needed for brute force attacks
+
+A Generative Adversarial network could try to fake encrypted messages
+Or the transformations in crypto-systems could be modelled with Neural Turing Machines
+
+Finally, another classification test can be run to test which crypto-systems are most (or least) secure
